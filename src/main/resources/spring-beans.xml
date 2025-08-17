@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- values.properties 파일위치 설정하기 -->
+	<context:property-placeholder location="classpath:values.properties"/>
+	
+	<!-- Component Scanning -->
+	<context:component-scan base-package="myspring.di.annot"/>
+	
+	<!-- StringPrinter class를 bean으로 등록 -->
+	<bean id="stringPrinter" class="myspring.di.xml.StringPrinter"/>
+	
+	<!-- ConsolePrinter class를 bean으로 등록 -->
+	<bean id="consolePrinter" class="myspring.di.xml.ConsolePrinter"/>
+	
+	<!-- Hello class를 Setter bean으로 등록-->
+	<bean id="hello" class="myspring.di.xml.Hello">
+		<property name="name" value="${myname11}"/>
+		<property name="printer" ref="stringPrinter"/>
+	</bean>
+	
+	<!-- Hello class를 Constructor bean으로 등록-->
+	<bean id="helloC" class="myspring.di.xml.Hello">
+		<constructor-arg index="0" value="${myname12}"/>
+		<constructor-arg index="1" ref="consolePrinter"/>
+		<!-- setNames() 호출하는 setter injection -->
+		<property name="names">
+			<list>
+				<value>Java</value>	
+				<value>SpringFW</value>	
+				<value>SpringBoot</value>			
+			</list>
+		</property>
+ 	</bean>
+</beans>
